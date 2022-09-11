@@ -1,7 +1,6 @@
-import React from 'react'
 import styled from "styled-components"
 
-function Viewers() {
+const Viewers = () => {
   return (
     <Container>
       <Wrap>
