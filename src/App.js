@@ -13,9 +13,10 @@ function App() {
         <Routes>
           
           <Route exact path="/" element={<Login />} />
-          <Route exact path="/home" element={<Home />} />
-          
+          <Route path="/home" element={<Home />} />
+
           <Route path="*" element={<Error>404 Not Found!</Error>} />
+
         </Routes>
       </Router>
     </div>

@@ -1,44 +1,92 @@
-import React from 'react'
 import styled from "styled-components";
-import { auth,provider } from "../firebase";
-import { signInWithPopup } from "firebase/auth";
-
+import { auth, provider } from "../firebase";
+import { signInWithPopup, signOut } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {useEffect} from 'react'
+import {
+  selectUserName,
+  selectUserPhoto,
+  setSignOutState,
+  setUserLoginDetails,
+} from "../features/user/UserSlice";
 
 function Header() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userName = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
 
-  function handleAuth(){
-    signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log(result)
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      ////const credential = GoogleAuthProvider.credentialFromResult(result);
-      ////const token = credential.accessToken;
-      // The signed-in user info.
-      ////const user = result.user;
-      // ...
-    }).catch((error) => {
-      console.log(error)
-      // Handle Errors here.
-      ////const errorCode = error.code;
-      ////const errorMessage = error.message;
-      // The email of the user's account used.
-      ////const email = error.customData.email;
-      // The AuthCredential type that was used.
-      ////const credential = GoogleAuthProvider.credentialFromError(error);
-    });
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async(user) => {
+      if(user) {
+        setUser(user)
+        navigate("/home")
+      }
+    })
+    // eslint-disable-next-line
+  }, [userName])
+
+  function handleAuth() {
+    if (!userName) {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log(result);
+          setUser(result.user);
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          ////const credential = GoogleAuthProvider.credentialFromResult(result);
+          ////const token = credential.accessToken;
+          // The signed-in user info.
+          ////const user = result.user;
+          // ...
+        })
+        .catch((error) => {
+          alert(error.message);
+          // Handle Errors here.
+          ////const errorCode = error.code;
+          ////const errorMessage = error.message;
+          // The email of the user's account used.
+          ////const email = error.customData.email;
+          // The AuthCredential type that was used.
+          ////const credential = GoogleAuthProvider.credentialFromError(error);
+        });
+    } else if (userName) {
+      signOut().then(() => {
+        dispatch(setSignOutState());
+        navigate('/');
+      }).catch((err) => {
+        alert(err.message);
+      });
+    }
+
   }
 
   return (
     <Nav>
-        <Logo>
-          <img src="/images/logo.svg" alt="Disney+" />
-        </Logo>
-        <NavMenu>
-          <a href="/">
+      <Logo>
+        <img src="/images/logo.svg" alt="Disney+" />
+      </Logo>
+
+      {!userName ? (
+        <Login onClick={handleAuth}>Login</Login>
+      ) : (
+        <>
+          <NavMenu>
+            <a href="/">
               <img src="/images/home-icon.svg" alt="HOME" />
               <span>HOME</span>
-          </a>
-          <a href="/#">
+            </a>
+            <a href="/#">
               <img src="/images/search-icon.svg" alt="SEARCH" />
               <span>SEARCH</span>
             </a>
@@ -58,12 +106,20 @@ function Header() {
               <img src="/images/series-icon.svg" alt="SERIES" />
               <span>SERIES</span>
             </a>
-        </NavMenu>
+          </NavMenu>
+          <SignOut>
+            <UserImg src={userPhoto} alt="userimage" />
+            <DropDown>
+              <span onClick={handleAuth}>Sign Out</span>
+            </DropDown>
+          </SignOut>
+        </>
+      )}
 
-        <Login onClick={handleAuth}>Login</Login>
+      {/* <Login onClick={handleAuth}>Login</Login> */}
     </Nav>
   );
-};
+}
 
 const Nav = styled.nav`
   position: fixed;
@@ -167,5 +223,44 @@ const Login = styled.a`
   }
 `;
 
+const UserImg = styled.img`
+  height: 100%;
+`;
 
-export default Header
+const DropDown = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  width: 100px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  ${UserImg} {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+  }
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+      transition-duration: 1s;
+    }
+  }
+`;
+
+export default Header;
