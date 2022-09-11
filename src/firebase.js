@@ -1,12 +1,10 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore/lite';
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-// import * as dotenv from './dotenv';
-// dotenv.config()
-
+// import {process} from "dotenv"
 
 const firebaseConfig = {
-    apiKey: process.env.APIKEY,
+    apiKey: process.env.REACT_APP_API_KEY, //'AIzaSyBTdi6B19O592DNXlk7pMpPrxxMlfzjhyc',
     authDomain: "webit-b8e79.firebaseapp.com",
     projectId: "webit-b8e79",
     storageBucket: "webit-b8e79.appspot.com",
