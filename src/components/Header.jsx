@@ -61,7 +61,8 @@ function Header() {
           ////const credential = GoogleAuthProvider.credentialFromError(error);
         });
     } else if (userName) {
-      signOut().then(() => {
+      console.log("Clicked");
+      signOut(auth).then(() => {
         dispatch(setSignOutState());
         navigate('/');
       }).catch((err) => {
@@ -107,12 +108,14 @@ function Header() {
               <span>SERIES</span>
             </a>
           </NavMenu>
+
           <SignOut>
             <UserImg src={userPhoto} alt="userimage" />
             <DropDown>
               <span onClick={handleAuth}>Sign Out</span>
             </DropDown>
           </SignOut>
+
         </>
       )}
 
@@ -217,6 +220,7 @@ const Login = styled.a`
   border-radius: 4px;
   transition: all 0.2s ease 0s;
   &:hover {
+    cursor: pointer;
     background-color: #f9f9f9;
     color: #000;
     border-color: transparent;
