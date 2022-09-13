@@ -23,3 +23,4 @@ export const db = getFirestore(app);
 
 
 export {auth, provider};
+export default db;
