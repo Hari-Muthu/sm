@@ -26,7 +26,6 @@ const Home = () => {
     onSnapshot(collection(db, "movies"), (snapshot) => {
       // eslint-disable-next-line
       snapshot.docs.map((doc) => {
-        console.log(doc.data().title);
         switch (doc.data().type) {
           case "recommend": // eslint-disable-next-line
             recommends = [...recommends, { id: doc.id, ...doc.data() }];

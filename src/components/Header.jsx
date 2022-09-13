@@ -43,25 +43,12 @@ function Header() {
         .then((result) => {
           console.log(result);
           setUser(result.user);
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          ////const credential = GoogleAuthProvider.credentialFromResult(result);
-          ////const token = credential.accessToken;
-          // The signed-in user info.
-          ////const user = result.user;
-          // ...
+          
         })
         .catch((error) => {
           alert(error.message);
-          // Handle Errors here.
-          ////const errorCode = error.code;
-          ////const errorMessage = error.message;
-          // The email of the user's account used.
-          ////const email = error.customData.email;
-          // The AuthCredential type that was used.
-          ////const credential = GoogleAuthProvider.credentialFromError(error);
         });
     } else if (userName) {
-      console.log("Clicked");
       signOut(auth).then(() => {
         dispatch(setSignOutState());
         navigate('/');
@@ -69,7 +56,6 @@ function Header() {
         alert(err.message);
       });
     }
-
   }
 
   return (
@@ -83,7 +69,7 @@ function Header() {
       ) : (
         <>
           <NavMenu>
-            <a href="/">
+            <a href="/Home">
               <img src="/images/home-icon.svg" alt="HOME" />
               <span>HOME</span>
             </a>
@@ -119,7 +105,6 @@ function Header() {
         </>
       )}
 
-      {/* <Login onClick={handleAuth}>Login</Login> */}
     </Nav>
   );
 }
