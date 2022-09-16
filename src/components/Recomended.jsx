@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectRecommend } from "../features/movie/MovieSlice";
+import { device } from '../device.js'
 
 const Recommends = (props) => {
   const movies = useSelector(selectRecommend);
@@ -34,7 +35,8 @@ const Content = styled.div`
   grid-gap: 25px;
   gap: 25px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  @media (max-width: 768px) {
+
+  @media only screen and (max-width: 1024px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 `;

@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import Detail from './components/Detail';
 import styled from 'styled-components';
+import './App.css'
 
 function App() {
   return (

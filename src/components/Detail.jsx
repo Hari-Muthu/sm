@@ -80,7 +80,7 @@ const Background = styled.div`
   img {
     width: 100vw;
     height: 100vh;
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
       width: initial;
     }
   }
@@ -137,7 +137,7 @@ const Player = styled.button`
   &:hover {
     background: rgb(198, 198, 198);
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     height: 45px;
     padding: 0px 12px;
     font-size: 12px;
@@ -205,7 +205,7 @@ const SubTitle = styled.div`
   color: rgb(249, 249, 249);
   font-size: 15px;
   min-height: 20px;
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 12px;
   }
 `;
@@ -215,7 +215,7 @@ const Description = styled.div`
   font-size: 20px;
   padding: 16px 0px;
   color: rgb(249, 249, 249);
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 14px;
   }
 `;
